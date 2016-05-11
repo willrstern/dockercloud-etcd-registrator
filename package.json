@@ -1,0 +1,32 @@
+{
+  "name": "dockercloud-etcd-autoregister",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "predeploy": "docker build -t willrstern/dockercloud-etcd-autoregister .",
+    "deploy": "docker push willrstern/dockercloud-etcd-autoregister",
+    "predeploy:alpha": "docker build -t willrstern/dockercloud-etcd-autoregister:alpha .",
+    "deploy:alpha": "docker push willrstern/dockercloud-etcd-autoregister:alpha",
+    "dev": "ETCD_HOST=localhost DEBUG=true nodemon main",
+    "start": "node main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willrstern/dockercloud-etcd-autoregister.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/willrstern/dockercloud-etcd-autoregister/issues"
+  },
+  "homepage": "https://github.com/willrstern/dockercloud-etcd-autoregister#readme",
+  "dependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "bluebird": "^3.3.5",
+    "dockerode": "^2.2.10",
+    "node-etcd": "^4.2.1",
+    "object-get": "^2.0.4"
+  }
+}
