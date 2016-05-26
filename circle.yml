@@ -5,7 +5,7 @@ machine:
 dependencies:
   override:
     - docker-compose build test
-    - docker-compose start web web2 api etcd
+    - docker-compose up -d
 
 test:
   override:
