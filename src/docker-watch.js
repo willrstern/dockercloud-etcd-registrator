@@ -3,7 +3,7 @@ import get from "object-get"
 import Promise from "bluebird"
 import Etcd from "node-etcd"
 
-const { DEBUG, ETCD_HOST } = process.env;
+const { DEBUG, ETCD_HOST, REGISTER_INTERVAL } = process.env;
 
 console.log = DEBUG === "true" ? console.log : function(){}
 
@@ -12,7 +12,7 @@ const dockerClient = new Docker({socketPath: '/var/run/docker.sock'})
 const docker = Promise.promisifyAll(dockerClient, {suffix: "Async"})
 
 syncContainers()
-setInterval(syncContainers, 5000)
+setInterval(syncContainers, REGISTER_INTERVAL || 5000)
 
 function syncContainers() {
   docker.listContainersAsync({all: false})
