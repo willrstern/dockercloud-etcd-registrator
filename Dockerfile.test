@@ -13,4 +13,4 @@ COPY ./test /app/test
 
 ENV DEBUG true
 
-CMD ["./node_modules/.bin/mocha", "-R", "nyan", "--compilers", "js:babel-register"]
+CMD ["./node_modules/.bin/mocha", "--compilers", "js:babel-register"]
