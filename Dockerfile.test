@@ -4,10 +4,13 @@ RUN apk add --update nodejs=6.2.0-r0
 
 WORKDIR /app
 COPY ./package.json /app/package.json
-RUN npm install --production
+RUN npm install
 
 COPY ./.babelrc /app/.babelrc
 COPY ./main.js /app/main.js
 COPY ./src /app/src
+COPY ./test /app/test
 
-CMD ["node", "main"]
+ENV DEBUG true
+
+CMD ["./node_modules/.bin/mocha", "-R", "nyan", "--compilers", "js:babel-register"]

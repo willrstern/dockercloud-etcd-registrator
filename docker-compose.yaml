@@ -1,0 +1,44 @@
+version: "2"
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      - web
+      - web2
+      - api
+    links:
+      - etcd:etcd
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  etcd:
+    image: elcolio/etcd
+  web:
+    image: dockercloud/hello-world
+    environment:
+      - "DOCKERCLOUD_IP_ADDRESS=123.45.67.8"
+      - "SERVICE_PORT=80"
+      - "SERVICE_NAME=web"
+      - "SERVICE_VIRTUAL_HOSTS=test.com,test2.com,test3.com"
+      - "SERVICE_TAGS=nginx:primary"
+      - "SERVICE_CERTS=cert1,,cert3"
+  web2:
+    image: dockercloud/hello-world
+    environment:
+      - "DOCKERCLOUD_IP_ADDRESS=123.45.67.9"
+      - "SERVICE_PORT=80"
+      - "SERVICE_NAME=web"
+      - "SERVICE_VIRTUAL_HOSTS=test.com,test2.com,test3.com"
+      - "SERVICE_TAGS=nginx:primary"
+      - "SERVICE_CERTS=cert1,,cert3"
+  api:
+    image: dockercloud/hello-world
+    environment:
+      - "DOCKERCLOUD_IP_ADDRESS=123.45.67.10"
+      - "SERVICE_PORT=3000"
+      - "SERVICE_NAME=api"
+      - "SERVICE_VIRTUAL_HOSTS=api.com"
+      - "SERVICE_TAGS=nginx:primary"
+
+

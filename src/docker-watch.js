@@ -11,11 +11,8 @@ const etcd = new Etcd(ETCD_HOST || "etcd")
 const dockerClient = new Docker({socketPath: '/var/run/docker.sock'})
 const docker = Promise.promisifyAll(dockerClient, {suffix: "Async"})
 
-syncContainers()
-setInterval(syncContainers, REGISTER_INTERVAL || 5000)
-
-function syncContainers() {
-  docker.listContainersAsync({all: false})
+export default function syncContainers() {
+  return docker.listContainersAsync({all: false})
     .map(container => Promise.promisifyAll(docker.getContainer(container.Id)))
     .map(container => container.inspectAsync())
     .map((data) => {
@@ -50,15 +47,15 @@ function syncContainers() {
 
       tags.forEach((tag) => {
         tag = tag.split(":");
-        etcd.set(`services/${name}/tags/${tag[0]}`, tag[1], {ttl: 30, maxRetries: 0}, console.log)
+        etcd.set(`services/${name}/tags/${tag[0]}`, tag[1], {ttl: 30, maxRetries: 0})
       })
 
       virtualHosts.forEach((host, i) => {
-        etcd.set(`services/${name}/hosts/${host}/upstream/${id}`, `${ip}:${port}`, {ttl: 30, maxRetries: 0}, console.log)
+        etcd.set(`services/${name}/hosts/${host}/upstream/${id}`, `${ip}:${port}`, {ttl: 30, maxRetries: 0})
 
         if (certs[i]) {
-          etcd.set(`services/${name}/hosts/${host}/ssl`, true, {ttl: 30, maxRetries: 0}, console.log)
-          etcd.set(`services/${name}/hosts/${host}/cert`, certs[i], {ttl: 30, maxRetries: 0}, console.log)
+          etcd.set(`services/${name}/hosts/${host}/ssl`, true, {ttl: 30, maxRetries: 0})
+          etcd.set(`services/${name}/hosts/${host}/cert`, certs[i], {ttl: 30, maxRetries: 0})
         }
       })
 
