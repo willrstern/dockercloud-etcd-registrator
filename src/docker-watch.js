@@ -3,7 +3,7 @@ import get from "object-get"
 import Promise from "bluebird"
 import Etcd from "node-etcd"
 
-const { DEBUG, ETCD_HOST, REGISTER_INTERVAL } = process.env;
+const { DEBUG, ETCD_HOST, TTL } = process.env;
 
 console.log = DEBUG === "true" ? console.log : function(){}
 
@@ -47,15 +47,15 @@ export default function syncContainers() {
 
       tags.forEach((tag) => {
         tag = tag.split(":");
-        etcd.set(`services/${name}/tags/${tag[0]}`, tag[1], {ttl: 30, maxRetries: 0})
+        etcd.set(`services/${name}/tags/${tag[0]}`, tag[1], {ttl: TTL || 30, maxRetries: 0})
       })
 
       virtualHosts.forEach((host, i) => {
-        etcd.set(`services/${name}/hosts/${host}/upstream/${id}`, `${ip}:${port}`, {ttl: 30, maxRetries: 0})
+        etcd.set(`services/${name}/hosts/${host}/upstream/${id}`, `${ip}:${port}`, {ttl: TTL || 30, maxRetries: 0})
 
         if (certs[i]) {
-          etcd.set(`services/${name}/hosts/${host}/ssl`, true, {ttl: 30, maxRetries: 0})
-          etcd.set(`services/${name}/hosts/${host}/cert`, certs[i], {ttl: 30, maxRetries: 0})
+          etcd.set(`services/${name}/hosts/${host}/ssl`, true, {ttl: TTL || 30, maxRetries: 0})
+          etcd.set(`services/${name}/hosts/${host}/cert`, certs[i], {ttl: TTL || 30, maxRetries: 0})
         }
       })
 

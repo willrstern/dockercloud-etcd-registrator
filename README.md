@@ -14,10 +14,18 @@ services:
   registrator:
     image: willrstern/dockercloud-etcd-registrator
     deployment_strategy: "EVERY_NODE"
+    # optional configuration through env vars
+    environment:
+      # default "etcd"
+      - "ETCD_HOST=<some-host-or-ip>"
+      # default 5000ms
+      - "REGISTER_INTERVAL=10000"
+      # default 30s
+      - "TTL=60"
+      # output lots of logs
+      - "DEBUG=true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    links:
-      - etcd:etcd
   etcd:
     image: elcolio/etcd
   # a service to register
