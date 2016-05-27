@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/willrstern/dockercloud-etcd-registrator/tree/master.svg?style=shield)](https://circleci.com/gh/willrstern/dockercloud-etcd-registrator/tree/master)
 # Dockercloud-Etcd-Registrator
 
 ### This container will opinionatedly auto-register all of your Docker Cloud containers to Etcd.
