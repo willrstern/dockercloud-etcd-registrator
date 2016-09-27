@@ -2,7 +2,7 @@
 # Dockercloud-Etcd-Registrator
 
 ### This container will opinionatedly auto-register all of your Docker Cloud containers to Etcd.
-It's designed to be used with [willrstern/nginx-etcd](https://github.com/willrstern/docker-cloud-nginx-load-balancing) for dynamic nginx load balancing
+It's designed to be used with [willrstern/nginx-etcd](https://github.com/willrstern/nginx-etcd) for dynamic nginx load balancing
 
 ### This was created out of 2 limitations:
 - [Registrator](https://github.com/gliderlabs/registrator) is a great solution for auto-registration, but does not pick up on Docker Cloud's internal Weave IP address
